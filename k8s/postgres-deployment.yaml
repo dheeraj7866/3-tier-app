@@ -26,11 +26,13 @@ spec:
         - name: POSTGRES_DB
           value: "mydb"
         volumeMounts:
-        - mountPath: /var/lib/postgresql/data
-          name: postgres-storage
+        - name: init-sql-volume
+          mountPath: /docker-entrypoint-initdb.d/init.sql
+          subPath: init.sql
       volumes:
-      - name: postgres-storage
-        emptyDir: {}
+      - name: init-sql-volume
+        configMap:
+          name: postgres-init-sql
 ---
 apiVersion: v1
 kind: Service
