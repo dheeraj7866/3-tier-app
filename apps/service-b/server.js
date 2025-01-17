@@ -9,12 +9,16 @@ const pool = new Pool({
     password: "password",
     port: 5432,
 });
-
+app.get('/check', (req, res) => {
+    res.status(200).send({ status: 'success', message: 'Service B is running!' });
+});
 app.get("/process", async (req, res) => {
-    const result = await pool.query("SELECT NOW()");
-    res.json({ message: "Data from PostgreSQL", timestamp: result.rows[0].now });
+    try {
+        const result = await pool.query("SELECT NOW()");
+        res.json({ message: "Data from PostgreSQL", timestamp: result.rows[0].now });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
-app.listen(5000, () => {
-    console.log("Service B is running on port 5000");
-});
+app.listen(5000, () => console.log("Service B is running on port 5000"));

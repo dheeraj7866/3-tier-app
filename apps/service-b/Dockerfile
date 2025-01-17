@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY package.json ./
 RUN npm install
+RUN apt-get update && apt-get install curl -y
 
 COPY server.js .
 
