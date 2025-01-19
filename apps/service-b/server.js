@@ -9,6 +9,15 @@ const requestCounter = new client.Counter({
     help: 'Total number of requests',
   });
 
+const app = express();
+const pool = new Pool({
+    user: "postgres",
+    host: "postgres",
+    database: "mydb",
+    password: "password",
+    port: 5432,
+});
+
 app.get('/metrics', async (req, res) => {
   res.set('Content-Type', register.contentType);
   res.end(await register.metrics());
@@ -19,17 +28,10 @@ app.get('/test', (req, res) => {
     res.send('Hello, world! from service-b');
   });
 
-const app = express();
-const pool = new Pool({
-    user: "postgres",
-    host: "postgres",
-    database: "mydb",
-    password: "password",
-    port: 5432,
-});
 app.get('/check', (req, res) => {
     res.status(200).send({ status: 'success', message: 'Service B is running!' });
 });
+
 app.get("/process", async (req, res) => {
     try {
         const result = await pool.query("SELECT NOW()");
