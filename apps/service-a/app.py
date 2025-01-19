@@ -3,8 +3,10 @@ import requests
 
 app = Flask(__name__)
 
-SERVICE_B_URL = "http://service-b:5000/process"
-
+SERVICE_B_URL = "http://service-b/process"
+@app.route('/test', methods=['GET'])
+def process():
+    return "Processing done!", 200
 @app.route("/get-data", methods=["GET"])
 def get_data():
     response = requests.get(SERVICE_B_URL)
