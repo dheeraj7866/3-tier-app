@@ -1,5 +1,23 @@
 const express = require("express");
+const client = require('prom-client');
+
 const { Pool } = require("pg");
+const register = client.register;
+
+const requestCounter = new client.Counter({
+    name: 'app_requests_total',
+    help: 'Total number of requests',
+  });
+
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+});
+
+app.get('/test', (req, res) => {
+    requestCounter.inc();
+    res.send('Hello, world! from service-b');
+  });
 
 const app = express();
 const pool = new Pool({
