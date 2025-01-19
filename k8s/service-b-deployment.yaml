@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: service-b
-        image: dheerajkr7866/3-tier-app-service-a:latest
+        image: dheerajkr7866/3-tier-app-service-b:2
         ports:
         - containerPort: 5000
 ---
@@ -26,6 +26,8 @@ metadata:
   namespace: my-namespace
 spec:
   ports:
-  - port: 5000
+  - port: 80              # Expose the service on port 80 for Ingress
+    targetPort: 5000       # Redirect to the container's 5000 port
   selector:
     app: service-b
+  type: ClusterIP          # Use ClusterIP to work with Ingress
