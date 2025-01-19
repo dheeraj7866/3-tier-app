@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: service-a
-        image: dheerajkr7866/3-tier-app-service-a:3
+        image: dheerajkr7866/3-tier-app-service-a:4
         ports:
         - containerPort: 5000
 ---
